@@ -43,6 +43,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String login(LogInParams logInParams) throws DuplicateKeyException, UserDataException {
         try{
             User user = findUserByUserName(logInParams.getUsername());
+            if(user==null){
+                return null;
+            }
             String token = createAuthToken(user.getUserId());
             if (passwordEncoder.matches(logInParams.getPassword(), user.getPassword())){
                 return token;
